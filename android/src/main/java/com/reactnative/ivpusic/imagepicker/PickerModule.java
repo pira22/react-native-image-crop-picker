@@ -92,6 +92,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
     private int height = 0;
     private int ratioAspectX = 3;
     private int ratioAspectY = 4;
+
     private Uri mCameraCaptureURI;
     private String mCurrentPhotoPath;
     private ResultCollector resultCollector = new ResultCollector();
@@ -135,8 +136,8 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
         enableRotationGesture = options.hasKey("enableRotationGesture") ? options.getBoolean("enableRotationGesture") : false;
         disableCropperColorSetters = options.hasKey("disableCropperColorSetters") ? options.getBoolean("disableCropperColorSetters") : false;
         useFrontCamera = options.hasKey("useFrontCamera") ? options.getBoolean("useFrontCamera") : false;
-        ratioAspectX = options.hasKey("ratioAspectX") ? options.hasKey("ratioAspectX") : 3;
-        ratioAspectY = options.hasKey("ratioAspectY") ? options.hasKey("ratioAspectX") : 4;
+        ratioAspectX = options.hasKey("ratioAspectX") ? options.getInt("ratioAspectX") : 3;
+        ratioAspectY = options.hasKey("ratioAspectY") ? options.getInt("ratioAspectY") : 4;
         this.options = options;
     }
 
@@ -601,7 +602,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
     private void startCropping(Activity activity, Uri uri) {
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-        //options.setCompressionQuality(100);
+        options.setCompressionQuality(100);
         options.setCircleDimmedLayer(cropperCircleOverlay);
         options.setFreeStyleCropEnabled(freeStyleCropEnabled);
         options.setShowCropGrid(showCropGuidelines);
@@ -626,9 +627,9 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
                 .withOptions(options);
 
         if (width > 0 && height > 0) {
-            uCrop.withAspectRatio(ratioAspectX, ratioAspectY);
+            uCrop.withMaxResultSize(width, height);
         }
-
+        uCrop.withAspectRatio(ratioAspectX, ratioAspectY);
         uCrop.start(activity);
     }
 
