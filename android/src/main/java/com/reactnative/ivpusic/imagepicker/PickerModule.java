@@ -90,7 +90,8 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
     private final String DEFAULT_WIDGET_COLOR = "#03A9F4";
     private int width = 0;
     private int height = 0;
-
+    private int ratioAspectX = 3;
+    private int ratioAspectY = 4;
     private Uri mCameraCaptureURI;
     private String mCurrentPhotoPath;
     private ResultCollector resultCollector = new ResultCollector();
@@ -134,6 +135,8 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
         enableRotationGesture = options.hasKey("enableRotationGesture") ? options.getBoolean("enableRotationGesture") : false;
         disableCropperColorSetters = options.hasKey("disableCropperColorSetters") ? options.getBoolean("disableCropperColorSetters") : false;
         useFrontCamera = options.hasKey("useFrontCamera") ? options.getBoolean("useFrontCamera") : false;
+        ratioAspectX = options.hasKey("ratioAspectX") ? options.hasKey("ratioAspectX") : 3;
+        ratioAspectY = options.hasKey("ratioAspectY") ? options.hasKey("ratioAspectX") : 4;
         this.options = options;
     }
 
@@ -623,7 +626,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
                 .withOptions(options);
 
         if (width > 0 && height > 0) {
-            uCrop.withMaxResultSize(width, height);
+            uCrop.withAspectRatio(ratioAspectX, ratioAspectY);
         }
 
         uCrop.start(activity);
