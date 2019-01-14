@@ -627,7 +627,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
                 .withOptions(options);
 
         if (width > 0 && height > 0) {
-            uCrop.withMaxResultSize(width, height);
+            //uCrop.withMaxResultSize(width, height);
         }
         uCrop.withAspectRatio(ratioAspectX, ratioAspectY);
         uCrop.start(activity);
